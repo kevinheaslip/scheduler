@@ -18,3 +18,18 @@ export function getAppointmentsForDay(state, day) {
 
   return appointmentArr;
 }
+
+// takes in an object containing an interviewer and returns an object that contains interview data
+export function getInterview(state, interview) {
+  const interviewObj = {};
+
+  if (interview) {
+    interviewObj.student = interview.student;
+    const interviewerID = interview.interviewer;
+    interviewObj.interviewer = state.interviewers[interviewerID];
+    
+    return interviewObj;
+  }
+  
+  return null;
+}
