@@ -12,9 +12,9 @@ export function useVisualMode(initial) {
 
     if (replace) {
       const previousArr = history.slice(0, history.length - 1);
-      const newArr = [...previousArr, mode];
+      const replaceArr = [...previousArr, mode];
       
-      setHistory(newArr);
+      setHistory(replaceArr);
     }
   }
 
