@@ -33,3 +33,24 @@ export function getInterview(state, interview) {
   
   return null;
 }
+
+// takes in an appointment object and returns an array of interviewer objects
+export function getInterviewersForDay(state, day) {
+  if (!state.days.length) {
+    return [];
+  }
+
+  const foundDay = state.days.find((stateDay) => {
+    return stateDay.name === day;
+  })
+
+  if (!foundDay) {
+    return [];
+  }
+
+  const interviewersArr = foundDay.interviewers.map(element => {
+    return state.interviewers[element];
+  })
+
+  return interviewersArr;
+}
