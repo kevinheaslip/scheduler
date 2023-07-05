@@ -22,9 +22,31 @@ export default function Application() {
   // get array of interviewers for day from appointments object
   const interviewers = getInterviewersForDay(state, state.day);
 
+  //
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+
+    axios.put(`/api/appointments/${id}`, appointment)
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
+    
+    setState({
+      ...state,
+      appointments
+    });
+  }
+
   // create an array of <Appointment> components
   const schedule = dailyAppointments.map(appointment => {
-    const interview = getInterview(state, appointment.interview);
+  const interview = getInterview(state, appointment.interview);
 
     return (
       <Appointment
@@ -33,6 +55,7 @@ export default function Application() {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={bookInterview}
       />
     )
   })
@@ -49,14 +72,16 @@ export default function Application() {
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("api/interviewers")
-    ]).then((all) => {
-      setState(prev => ({
-        ...prev,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data
-      }));
-    })
+    ])
+      .then((all) => {
+        setState(prev => ({
+          ...prev,
+          days: all[0].data,
+          appointments: all[1].data,
+          interviewers: all[2].data
+        }));
+      })
+      .catch(error => console.log(error))
   }, []);
 
   return (
