@@ -22,7 +22,7 @@ export default function Application() {
   // get array of interviewers for day from appointments object
   const interviewers = getInterviewersForDay(state, state.day);
 
-  //
+  // update local state and server when an interview is booked
   function bookInterview(id, interview) {
     console.log(id, interview);
     const appointment = {
@@ -34,14 +34,40 @@ export default function Application() {
       [id]: appointment
     };
 
-    axios.put(`/api/appointments/${id}`, appointment)
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
-    
-    setState({
-      ...state,
-      appointments
-    });
+    return axios.put(`/api/appointments/${id}`, {interview})
+      .then(response => {
+        console.log(response);   
+        
+        setState({
+          ...state,
+          appointments
+        })
+      })
+      // .catch(error => console.log(error));
+  }
+
+  // use appointment id to set interview data to null
+  function cancelInterview(id) {
+    console.log(id);
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+
+    return axios.delete(`/api/appointments/${id}`)
+      .then(response => {
+        console.log(response);
+        
+        setState({
+          ...state,
+          appointments
+        })
+      })
+    // .catch(error => console.log(error));
   }
 
   // create an array of <Appointment> components
@@ -56,6 +82,7 @@ export default function Application() {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     )
   })
