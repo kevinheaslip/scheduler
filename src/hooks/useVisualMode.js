@@ -8,7 +8,7 @@ export function useVisualMode(initial) {
   // set new mode and add it to history array
   const transition = (mode, replace = false) => {
     setMode(mode);
-    setHistory([ ...history, mode]);
+    setHistory(prev => ([ ...prev, mode]));
 
     if (replace) {
       const previousArr = history.slice(0, history.length - 1);
