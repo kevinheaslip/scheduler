@@ -30,25 +30,51 @@ export function useApplicationData() {
       .catch(error => console.log(error))
   }, []);
 
+  // update the number of spots remaining in a day
+  function updateSpots(requestType) {
+    const days = state.days.map(day => {
+      if (day.name === state.day) {
+        if (requestType === 'bookAppointment') {
+          return { ...day, spots: day.spots - 1 }
+        } else {
+          return { ...day, spots: day.spots + 1 }
+        }
+      } else {
+        return { ...day }
+      }
+    })
+    return days;
+  }
+
+
   // update local state and server when an interview is booked
   function bookInterview(id, interview) {
     console.log(id, interview);
     const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
+      ...state.appointments[id]
     };
+    const hasInterview = appointment.interview;
+    appointment.interview = { ...interview };
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
+    
+    let days = state.days;
 
     return axios.put(`/api/appointments/${id}`, { interview })
       .then(response => {
         console.log(response);
 
+        // only update spots on a new appointment, not editing an existing one
+        if (!hasInterview) {
+          days = updateSpots('bookAppointment');
+        }
+
         setState({
           ...state,
-          appointments
+          appointments,
+          days
         })
       })
   }
@@ -69,9 +95,12 @@ export function useApplicationData() {
       .then(response => {
         console.log(response);
 
+        const days = updateSpots();
+
         setState({
           ...state,
-          appointments
+          appointments,
+          days
         })
       })
   }
