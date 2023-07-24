@@ -53,7 +53,7 @@ export default function Appointment(props) {
   }
   
   return (
-    <article className='appointment'>
+    <article className='appointment' data-testid="appointment">
       {mode === EMPTY && (
         <>
           <Header time={props.time} />
