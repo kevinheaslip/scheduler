@@ -12,22 +12,82 @@ Interview Scheduler is a single-page application (SPA) that allows users to book
 
 ## Setup
 
-Install dependencies with `npm install`.
+1. Create a new repository using this repository as a template
+2. Clone onto your local device
+3. Install dependencies
+  ```sh
+  npm install
+  ```
+4. Clone [scheduler-api](https://github.com/kevinheaslip/scheduler-api) to your local device and follow the instructions to create and seed your database
+5. Start scheduler-api server side (Interview Scheduler API)
+  ```sh
+  npm start
+  ```
+  The server side is available at ```http://localhost:8001/```
 
-## Running Webpack Development Server
+6. Start scheduler client side (Webpack Development Server)
+  ```sh
+  npm start
+  ```
+  The client side is available at ```http://localhost:8000/```
 
-```sh
-npm start
-```
+## Testing
 
-## Running Jest Test Framework
+### Running Jest Test Framework
 
 ```sh
 npm test
 ```
 
-## Running Storybook Visual Testbed
+### Running Storybook Visual Testbed
 
 ```sh
 npm run storybook
 ```
+
+### Running Cypress Testing Framework
+
+1. Start scheduler-api server side (Interview Scheduler API) in test mode
+  ```sh
+  npm run test:server
+  ```
+
+2. Start scheduler client side (Webpack Development Server)
+  ```sh
+  npm start
+  ```
+
+3. Start Cypress Testing Framework
+```sh
+npm run cypress
+```
+
+
+## Dependencies
+
+- node 10.x or above
+- npm 5.x or above
+- axios
+- classnames
+- node-sass
+- normalize.css
+- react
+- react-dom
+- react-scripts
+
+Install dependencies with ```npm install```.
+
+## Development dependencies
+
+- @babel/core
+- @storybook/react
+- @testing-library/jest-dom
+- @testing-library/react
+- @testing-library/react-hooks
+- babel-loader
+- prop-types
+- react-test-renderer
+- sass
+- cypress@9.7.0
+
+Install dependencies with ```npm install --save-dev```.
